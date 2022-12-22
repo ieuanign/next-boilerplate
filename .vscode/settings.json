@@ -1,25 +1,16 @@
 {
-  "editor.formatOnSave": true,
-  "files.associations": {
-    "*.svg": "html"
-  },
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/node_modules/*/**": true,
-    "**/.hg/store/**": true
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "svg.preview.mode": "svg",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "diffEditor.ignoreTrimWhitespace": false
+	"editor.formatOnSave": true,
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/node_modules/*/**": true,
+		"**/.hg/store/**": true
+	},
+	"files.associations": {
+		"*.svg": "html"
+	},
+	"svg.preview.mode": "svg",
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"diffEditor.ignoreTrimWhitespace": false
 }
