@@ -1,0 +1,10 @@
+Dockerfile
+.dockerignore
+npm-debug.log
+README.md
+.git
+
+# NextJS specific
+.next
+coverage*
+node_modules
