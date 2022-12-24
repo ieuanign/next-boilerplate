@@ -1,8 +1,17 @@
 @import "./normalize";
 @import "./reset";
+@import "./fonts";
+@import "./mixins";
+@import "./variables";
 
-html,
-body {
-	margin: 0;
-	padding: 0;
+html {
+	font-size: 62.5%; // 10px
+
+	body {
+		@include font-base;
+
+		/* Please make your own Typography Component / Styles */
+		// default font styling
+		font-size: 1.6rem;
+	}
 }
