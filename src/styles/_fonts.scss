@@ -1,0 +1,100 @@
+@import "mixins";
+
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-extra-light),
+	$font-weight-extra-light,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-extra-light-italic),
+	$font-weight-extra-light,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-light),
+	$font-weight-light,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-light-italic),
+	$font-weight-light,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-regular),
+	$font-weight-regular,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-italic),
+	$font-weight-regular,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-medium),
+	$font-weight-medium,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-medium-italic),
+	$font-weight-medium,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-semi-bold),
+	$font-weight-semi-bold,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-semi-bold-italic),
+	$font-weight-semi-bold,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-bold),
+	$font-weight-bold,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-bold-italic),
+	$font-weight-bold,
+	italic,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-extra-bold),
+	$font-weight-extra-bold,
+	normal,
+	ttf
+);
+@include font-face(
+	$font-family,
+	static/fonts/unquote($font-name-extra-bold-italic),
+	$font-weight-extra-bold,
+	italic,
+	ttf
+);

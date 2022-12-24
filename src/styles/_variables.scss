@@ -1,0 +1,31 @@
+$font-family: "Local";
+
+/* https://css-tricks.com/snippets/css/system-font-stack/ */
+$font-family-stack: $font-family, sans-serif, -apple-system, BlinkMacSystemFont,
+	"Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+	"Segoe UI Emoji", "Segoe UI Symbol";
+
+/* Font Filenames */
+$font-name-extra-light: "NotoSans-ExtraLight";
+$font-name-extra-light-italic: "NotoSans-ExtraLightItalic";
+$font-name-light: "NotoSans-Light";
+$font-name-light-italic: "NotoSans-LightItalic";
+$font-name-regular: "NotoSans-Regular";
+$font-name-italic: "NotoSans-RegularItalic";
+$font-name-medium: "NotoSans-Medium";
+$font-name-medium-italic: "NotoSans-MediumItalic";
+$font-name-semi-bold: "NotoSans-SemiBold";
+$font-name-semi-bold-italic: "NotoSans-SemiBoldItalic";
+$font-name-bold: "NotoSans-Bold";
+$font-name-bold-italic: "NotoSans-BoldItalic";
+$font-name-extra-bold: "NotoSans-ExtraBold";
+$font-name-extra-bold-italic: "NotoSans-ExtraBoldItalic";
+
+/* Font Weights */
+$font-weight-extra-light: 200;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+$font-weight-extra-bold: 800;

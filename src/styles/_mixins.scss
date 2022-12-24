@@ -1,0 +1,47 @@
+@import "./variables";
+
+@mixin font-face(
+	$name,
+	$path,
+	$weight: null,
+	$style: null,
+	$exts: ttf woff woff2
+) {
+	$src: null;
+	$formats: (
+		ttf: "truetype",
+		woff: "woff",
+		woff2: "woff2",
+	);
+
+	@each $ext in $exts {
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append(
+			$src,
+			url(quote("/" + $path + "." + $ext)) format(quote($format)),
+			comma
+		);
+	}
+
+	@font-face {
+		font-display: swap;
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+/* Fonts */
+@mixin opentype-feature-discretionary-ligatures {
+	font-feature-settings: "dlig" on;
+	font-variant-ligatures: discretionary-ligatures;
+}
+
+@mixin font-base {
+	@include opentype-feature-discretionary-ligatures;
+
+	font-family: $font-family-stack;
+	-webkit-font-smoothig: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
