@@ -2,6 +2,7 @@
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	min-height: 100vh;
+	min-width: 320px;
 }
 
 .header {
@@ -11,6 +12,7 @@
 .main {
 	display: grid;
 	grid-template-columns: auto 1fr;
+	margin-right: var(--edge-margin);
 }
 
 .nav {

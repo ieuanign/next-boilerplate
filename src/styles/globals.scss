@@ -4,6 +4,8 @@
 @import "./mixins";
 @import "./variables";
 
+@include responsive;
+
 html {
 	font-size: 62.5%; // 10px
 
