@@ -45,3 +45,38 @@
 	-webkit-font-smoothig: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+@mixin responsive {
+	// 320 - 480px: Mobile devices
+	:root {
+		--edge-margin: 20px;
+	}
+
+	// 481 - 768px: Tablets
+	@media screen and (min-width: 481px) and (max-width: 768px) {
+		:root {
+			--edge-margin: 24px;
+		}
+	}
+
+	// 769 - 1024px: Small screens
+	@media screen and (min-width: 769px) and (max-width: 1024px) {
+		:root {
+			--edge-margin: 36px;
+		}
+	}
+
+	// 1025 - 1280px: Desktop, medium screens
+	@media screen and (min-width: 1025px) and (max-width: 1280px) {
+		:root {
+			--edge-margin: 48x;
+		}
+	}
+
+	// 1201 - more: Large screen, TV
+	@media screen and (min-width: 1201px) {
+		:root {
+			--edge-margin: 56px;
+		}
+	}
+}
