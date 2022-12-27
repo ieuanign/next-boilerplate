@@ -114,8 +114,6 @@ export const getServerSideFallbacks = async (
 				...init,
 				headers: {
 					...init?.headers,
-					// https://github.com/axios/axios/issues/5346#issuecomment-1340241163
-					"Accept-Encoding": "gzip,deflate,compress",
 				},
 			})
 		)
