@@ -18,6 +18,7 @@
 		"paths": {
 			"@components/*": ["src/components/*"],
 			"@core/*": ["src/core/*"],
+			"@hooks/*": ["src/hooks/*"],
 			"@pages/*": ["src/pages/*"],
 			"@styles/*": ["src/styles/*"]
 		}

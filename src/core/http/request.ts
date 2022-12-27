@@ -1,8 +1,11 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { nanoid } from "nanoid";
-// import { getCookies } from "cookies-next";
+import { getCookie } from "cookies-next";
 
+import { DEFAULT_TIMEOUT_MS, TOKEN_KEY } from "@core/const";
 import StatusCodes from "./status-codes";
 import { Methods } from "./types";
+import { unstable_serialize } from "swr";
 
 export class HttpError extends Error {
 	status: number;
@@ -21,11 +24,21 @@ export const jsonHeaders = {
 	"Content-Type": "application/json",
 };
 
-// const authHeaders = (token: string) => ({
-// 	Authorization: `Bearer ${token}`,
-// });
+export const authHeaders = () => {
+	const token = getCookie(TOKEN_KEY);
 
-const toJSON = (res: Response) => res.json();
+	return {
+		Authorization: `Bearer ${token}`,
+	};
+};
+
+/**
+ * use fetcher.interceptors.request to intercept the request
+ * and do something like refresh token
+ */
+const instance = axios.create();
+
+instance.defaults.timeout = DEFAULT_TIMEOUT_MS;
 
 /**
  * The following will be considered as an error:
@@ -35,25 +48,28 @@ const toJSON = (res: Response) => res.json();
  * X-Request-ID header is a random ID that will be passed onto the server
  * that will able to track error by including the ID in the bug report.
  */
-export const baseRequest = (url: RequestInfo, init: RequestInit) => {
-	return fetch(url, {
-		...init,
-		headers: {
-			...jsonHeaders,
-			...init?.headers,
-			"X-Request-ID": nanoid(),
-		},
-	}).then(async (res: Response) => {
-		if (res.ok) {
-			return res;
-		}
+export const baseRequest = (url: string, init: AxiosRequestConfig) => {
+	return instance
+		.request({
+			url,
+			...init,
+			headers: {
+				...jsonHeaders,
+				...init.headers,
+				"X-Request-Id": nanoid(),
+			},
+		})
+		.then(async (res: AxiosResponse) => {
+			if (res.status === StatusCodes.OK) {
+				return res.data;
+			}
 
-		if (res.status === StatusCodes.UNPROCESSABLE_ENTITY) {
-			throw new HttpError(res.status, res.statusText, await toJSON(res));
-		}
+			if (res.status === StatusCodes.UNPROCESSABLE_ENTITY) {
+				throw new HttpError(res.status, res.statusText, res);
+			}
 
-		throw new HttpError(res.status, res.statusText);
-	});
+			throw new HttpError(res.status, res.statusText);
+		});
 };
 
 /**
@@ -63,22 +79,55 @@ export const baseRequest = (url: RequestInfo, init: RequestInit) => {
  *
  * @returns JSON response if success; del method returns nothing.
  */
-export const get = (url: RequestInfo, init?: RequestInit) =>
-	baseRequest(url, { ...init, method: Methods.GET }).then(toJSON);
+export const get = (
+	url: string,
+	init?: AxiosRequestConfig
+): Promise<Response> => baseRequest(url, { ...init, method: Methods.GET });
 
-export const post = (url: RequestInfo, init?: RequestInit) =>
-	baseRequest(url, { ...init, method: Methods.POST }).then(toJSON);
+export const post = (
+	url: string,
+	init?: AxiosRequestConfig
+): Promise<Response> => baseRequest(url, { ...init, method: Methods.POST });
 
-export const put = (url: RequestInfo, init?: RequestInit) =>
-	baseRequest(url, { ...init, method: Methods.PUT }).then(toJSON);
+export const put = (
+	url: string,
+	init?: AxiosRequestConfig
+): Promise<Response> => baseRequest(url, { ...init, method: Methods.PUT });
 
-export const del = (url: RequestInfo, init?: RequestInit) =>
-	baseRequest(url, { ...init, method: Methods.DELETE });
+export const del = (
+	url: string,
+	init?: AxiosRequestConfig
+): Promise<Response> => baseRequest(url, { ...init, method: Methods.DELETE });
 
-export const getWithToken = (url: RequestInfo, init?: RequestInit) =>
-	get(url, {
-		...init,
-		headers: {
-			...init?.headers,
-		},
-	});
+/**
+ * For Server-Side Rendering (SSR), you need to implement
+ * fallback.
+ * https://swr.vercel.app/blog/swr-v1#fallback-data
+ */
+
+export const getServerSideFallbacks = async (
+	requests: [string, AxiosRequestConfig?][]
+) => {
+	const results = await Promise.allSettled(
+		requests.map(([url, init]) =>
+			get(url, {
+				...init,
+				headers: {
+					...init?.headers,
+					// https://github.com/axios/axios/issues/5346#issuecomment-1340241163
+					"Accept-Encoding": "gzip,deflate,compress",
+				},
+			})
+		)
+	);
+
+	return results.reduce(
+		(prev, result, index) => ({
+			...prev,
+			...(result.status === "fulfilled"
+				? { [unstable_serialize(requests[index])]: result.value }
+				: undefined),
+		}),
+		{}
+	);
+};
