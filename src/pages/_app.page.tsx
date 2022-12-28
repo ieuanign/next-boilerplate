@@ -5,9 +5,9 @@ import type { NextPage } from "next";
 import Head from "@components/Head";
 import { StandardLayout } from "@components/Layout";
 
+import ErrorBoundary from "@components/ErrorBoundary";
+
 import "../styles/globals.scss";
-import { SWRConfig } from "swr";
-import { get } from "@core/http/request";
 
 // try @next/font package for font optimization
 
@@ -23,13 +23,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout || StandardLayout;
 
 	return (
-		<SWRConfig
-			value={{
-				fetcher: ([url, init]) => get(url, init),
-			}}
-		>
+		<ErrorBoundary fallback={<>Error Caught by ErrorBoundary</>}>
 			<Head />
 			{getLayout(<Component {...pageProps} />)}
-		</SWRConfig>
+		</ErrorBoundary>
 	);
 }

@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import { getCookie } from "cookies-next";
 
 import { DEFAULT_TIMEOUT_MS, TOKEN_KEY } from "@core/const";
 import StatusCodes from "./status-codes";
-import { Methods } from "./types";
+import { Methods, SWRKeyType } from "./types";
 import { unstable_serialize } from "swr";
 
 export class HttpError extends Error {
@@ -56,14 +56,12 @@ export const baseRequest = (url: string, init: AxiosRequestConfig) => {
 			headers: {
 				...jsonHeaders,
 				...init.headers,
-				"X-Request-Id": nanoid(),
+				// why we need it: https://stackoverflow.com/questions/25433258/what-is-the-x-request-id-http-header
+				// "X-Request-Id": nanoid(),
 			},
 		})
-		.then(async (res: AxiosResponse) => {
-			if (res.status === StatusCodes.OK) {
-				return res.data;
-			}
-
+		.then(async (res: AxiosResponse) => res.data)
+		.catch((res) => {
 			if (res.status === StatusCodes.UNPROCESSABLE_ENTITY) {
 				throw new HttpError(res.status, res.statusText, res);
 			}
@@ -105,18 +103,18 @@ export const del = (
  * https://swr.vercel.app/blog/swr-v1#fallback-data
  */
 
-export const getServerSideFallbacks = async (
-	requests: [string, AxiosRequestConfig?][]
-) => {
+export const getServerSideFallbacks = async (requests: SWRKeyType[]) => {
 	const results = await Promise.allSettled(
-		requests.map(([url, init]) =>
-			get(url, {
-				...init,
-				headers: {
-					...init?.headers,
-				},
-			})
-		)
+		requests.map(([url, init]) => {
+			if (url) {
+				return get(url, {
+					...init,
+					headers: {
+						...init?.headers,
+					},
+				});
+			}
+		})
 	);
 
 	return results.reduce(
