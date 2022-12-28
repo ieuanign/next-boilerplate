@@ -1,6 +1,5 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import i18nConfig from "@i18nConfig";
+import { DEFAULT_LANG } from "./const";
 
 export const utility = () => {
 	console.log("utility module");
@@ -13,7 +12,7 @@ export const utility = () => {
  * @returns
  */
 export const ssrLangProps = async (
-	locale = i18nConfig.i18n.defaultLocale,
+	locale = DEFAULT_LANG,
 	files = ["common"]
 ) => {
 	return await serverSideTranslations(locale, files);

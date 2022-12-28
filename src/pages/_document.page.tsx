@@ -1,10 +1,9 @@
+import { DEFAULT_LANG } from "@core/const";
 import { Html, Head, Main, NextScript } from "next/document";
 import type { DocumentProps } from "next/document";
-import i18nConfig from "@i18nConfig";
 
 export default function Document(props: DocumentProps) {
-	const currentLocale =
-		props.__NEXT_DATA__.locale ?? i18nConfig.i18n.defaultLocale;
+	const currentLocale = props.__NEXT_DATA__.locale ?? DEFAULT_LANG;
 
 	return (
 		<Html lang={currentLocale}>
