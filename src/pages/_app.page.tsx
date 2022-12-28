@@ -1,10 +1,10 @@
 import { ReactElement, ReactNode } from "react";
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import type { NextPage } from "next";
+import { appWithTranslation } from "next-i18next";
 
 import Head from "@components/Head";
 import { StandardLayout } from "@components/Layout";
-
 import ErrorBoundary from "@components/ErrorBoundary";
 
 import "../styles/globals.scss";
@@ -17,15 +17,33 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
+	hostname: string;
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+function App({ Component, pageProps, hostname }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout || StandardLayout;
 
 	return (
-		<ErrorBoundary fallback={<>Error Caught by ErrorBoundary</>}>
-			<Head />
-			{getLayout(<Component {...pageProps} />)}
-		</ErrorBoundary>
+		<>
+			<ErrorBoundary fallback={<>Error Caught by ErrorBoundary</>}>
+				<Head hostname={hostname} />
+				{getLayout(<Component {...pageProps} />)}
+			</ErrorBoundary>
+		</>
 	);
 }
+
+/**
+ * This will disable Automatic Static Optimization in pages without Static Generation
+ * https://nextjs.org/docs/advanced-features/automatic-static-optimization
+ */
+App.getInitialProps = async (appContext: AppContext) => {
+	const req = appContext.ctx.req;
+	const hostname = req?.headers.host;
+
+	return {
+		hostname,
+	};
+};
+
+export default appWithTranslation(App);
