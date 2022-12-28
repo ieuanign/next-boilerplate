@@ -6,23 +6,27 @@ import { PageProps } from "@pages/type";
 
 import { SWRKeyType } from "@core/http/types";
 import useSWR from "@hooks/useSWR";
+import { ssrLangProps } from "@core/utils";
 
 const API: SWRKeyType = ["https://api.github.com/repos/vercel/swr"];
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 	const fallback = await getServerSideFallbacks([API]);
+	const transalations = await ssrLangProps(locale);
+
 	return {
 		props: {
 			fallback,
+			...transalations,
 		},
 	};
 };
 
 const Home = () => {
-	const { data } = useSWR(API);
+	/* const { data } =  */ useSWR(API);
 
 	// there should be no `undefined` state
-	console.log("data", data); // intentional logger
+	// console.log("data", data); // intentional logger
 
 	return (
 		<section>

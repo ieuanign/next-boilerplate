@@ -1,20 +1,42 @@
 import NextHead from "next/head";
+import { useRouter } from "next/router";
 
-const Head = () => {
+import { useTranslation } from "next-i18next";
+
+interface HeadProps {
+	hostname: string;
+}
+
+const Head = ({ hostname }: HeadProps) => {
+	const router = useRouter();
+	const { t } = useTranslation("common");
+	const { locales } = router;
+
 	return (
 		<NextHead>
-			<title>NextJS Boilerplate</title>
+			<title>{t("title")}</title>
 			<meta
 				name="description"
 				content="Boilerplate for NextJS"
 				key="description"
 			/>
 			<meta name="author" content="Ieuan Ignatius" key="author" />
+			<meta charSet="utf-8" />
 			<meta
 				name="viewport"
 				content="width=device-width, initial-scale=1"
 				key="viewport"
 			/>
+			<link rel="alternate" href={hostname} hrefLang="x-default" />
+			{locales?.map((locale) => (
+				<link
+					key={locale}
+					rel="alternate"
+					href={`${hostname}/${locale}`}
+					hrefLang={locale}
+				/>
+			))}
+
 			<link
 				rel="apple-touch-icon"
 				sizes="57x57"
