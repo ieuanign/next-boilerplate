@@ -1,10 +1,15 @@
-import useSWR, { SWRHook, useSWRConfig } from "swr";
+import useSWR, { SWRHook, useSWRConfig, SWRConfiguration } from "swr";
+import { useCallback, useEffect, useRef } from "react";
 import { AxiosRequestConfig } from "axios";
 
 import { get } from "@core/http/request";
+import { SWRKeyType } from "@core/http/types";
 
 import useErrorHandler from "./useErrorHandler";
-import { useCallback, useEffect, useRef } from "react";
+
+export interface SWROptions extends SWRConfiguration {
+	withErrorHandler: boolean;
+}
 
 /**
  * Take a look at the link below for more info about the parameters.
@@ -16,22 +21,16 @@ import { useCallback, useEffect, useRef } from "react";
  * As default, it is set to be fetched in server-side and client-side.
  * https://swr.vercel.app/docs/with-nextjs#pre-rendering-with-default-data
  */
-const useMutableData = (
-	url: string | null,
-	init?: AxiosRequestConfig,
-	options?: Record<string, unknown>
-) => {
-	const key: [string | null, AxiosRequestConfig?] = [url];
-
-	if (init) key.push(init);
-
+const useMutableData = (key: SWRKeyType, options?: SWROptions) => {
+	const [url] = key;
+	const { withErrorHandler = true, ...rest } = options || {};
 	const swr = useSWR(
 		!!url ? key : null,
 		([url, init]: [string, AxiosRequestConfig?]) => get(url, init),
-		options
+		rest
 	);
 
-	useErrorHandler(swr.error);
+	useErrorHandler(withErrorHandler ? swr.error : null);
 
 	return swr;
 };
