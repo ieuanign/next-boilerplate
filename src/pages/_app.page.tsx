@@ -7,6 +7,9 @@ import Head from "@components/Head";
 import { StandardLayout } from "@components/Layout";
 import ErrorBoundary from "@components/ErrorBoundary";
 
+import { initMocks } from "@mocks/init";
+import { env } from "@core/config";
+
 import "../styles/globals.scss";
 
 // try @next/font package for font optimization
@@ -19,6 +22,10 @@ type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 	hostname: string;
 };
+
+if (env.mockAPI) {
+	initMocks();
+}
 
 function App({ Component, pageProps, hostname }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout || StandardLayout;

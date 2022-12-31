@@ -70,6 +70,11 @@ export const baseRequest = (url: string, init: AxiosRequestConfig) => {
 		});
 };
 
+interface CustomResponse extends Response {
+	data: any;
+	error: Record<string, unknown> | null;
+}
+
 /**
  * GET/POST/PUT/DEL helper methods.
  *
@@ -80,22 +85,26 @@ export const baseRequest = (url: string, init: AxiosRequestConfig) => {
 export const get = (
 	url: string,
 	init?: AxiosRequestConfig
-): Promise<Response> => baseRequest(url, { ...init, method: Methods.GET });
+): Promise<CustomResponse> =>
+	baseRequest(url, { ...init, method: Methods.GET });
 
 export const post = (
 	url: string,
 	init?: AxiosRequestConfig
-): Promise<Response> => baseRequest(url, { ...init, method: Methods.POST });
+): Promise<CustomResponse> =>
+	baseRequest(url, { ...init, method: Methods.POST });
 
 export const put = (
 	url: string,
 	init?: AxiosRequestConfig
-): Promise<Response> => baseRequest(url, { ...init, method: Methods.PUT });
+): Promise<CustomResponse> =>
+	baseRequest(url, { ...init, method: Methods.PUT });
 
 export const del = (
 	url: string,
 	init?: AxiosRequestConfig
-): Promise<Response> => baseRequest(url, { ...init, method: Methods.DELETE });
+): Promise<CustomResponse> =>
+	baseRequest(url, { ...init, method: Methods.DELETE });
 
 /**
  * For Server-Side Rendering (SSR), you need to implement
