@@ -37,7 +37,6 @@ const useMutableData = (key: SWRKeyType, options?: SWROptions) => {
 
 // https://swr.vercel.app/docs/middleware#keep-previous-result
 export function laggy(useSWRNext: SWRHook) {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	return (key, fetcher, config) => {
 		// Use a ref to store previous returned data.
@@ -79,7 +78,6 @@ export function laggy(useSWRNext: SWRHook) {
 export function useMatchMutate() {
 	const { cache, mutate } = useSWRConfig();
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	return (matcher, ...args) => {
 		if (!(cache instanceof Map)) {
@@ -90,7 +88,6 @@ export function useMatchMutate() {
 
 		const keys = [];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		for (const key of cache.keys()) {
 			if (matcher.test(key)) {
