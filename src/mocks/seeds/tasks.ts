@@ -1,4 +1,4 @@
-const tasks = () => [
+const tasks = [
 	{
 		id: "63b8bb76-cf6a-4972-a65a-b5730b69ba27",
 		title: "quidem expedita labore",
