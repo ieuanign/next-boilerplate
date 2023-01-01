@@ -19,6 +19,18 @@ const tasks = () => [
 		id: "318e2aeb-f079-4488-a42c-b158be8365ed",
 		title: "sequi dignissimos sint",
 	},
+	{
+		id: "6034668b-8f05-4ac0-90be-246c355d80a8",
+		title: "quibusdam expedita corporis",
+	},
+	{
+		id: "e57a3d48-dd86-4a5c-9d26-d0578899840e",
+		title: "beatae adipisci explicabo",
+	},
+	{
+		id: "5384784e-4f94-4b98-856a-bd229fd5fd11",
+		title: "doloribus animi saepe",
+	},
 ];
 
 export default tasks;
