@@ -36,7 +36,12 @@ const Head = ({ hostname }: HeadProps) => {
 					hrefLang={locale}
 				/>
 			))}
-
+			<link
+				rel="icon"
+				href="/static/favicons/favicon.ico"
+				type="image/x-icon"
+				sizes="16x16"
+			></link>
 			<link
 				rel="apple-touch-icon"
 				sizes="57x57"

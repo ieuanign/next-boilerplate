@@ -1,9 +1,5 @@
 import { factory } from "./factory";
-import tasks from "./seeds/tasks";
-
-const seedFiles = {
-	tasks,
-};
+import seedFiles from "./seeds/files";
 
 const migrate = (db: any) => {
 	Object.entries(seedFiles).forEach(([key, value]) => {
