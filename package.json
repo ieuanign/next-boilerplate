@@ -7,9 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"husky": "husky install",
-		"mock:seed-format": "prettier --config .prettierrc.json 'src/mocks/seeds/*.ts' --write",
-		"mock:seed": "npx ts-node src/mocks/seeds/index.ts && npm run mock:seed-format"
+		"husky": "husky install"
 	},
 	"dependencies": {
 		"@next/font": "13.0.7",
