@@ -20,9 +20,7 @@
 			"@pages/*": ["src/pages/*"],
 			"@core/*": ["src/core/*"],
 			"@hooks/*": ["src/hooks/*"],
-			"@mocks/*": ["src/mocks/*"],
-			"@i18nConfig": ["next-i18next.config.js"],
-			"@styles/*": ["src/styles/*"]
+			"@mocks/*": ["src/mocks/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

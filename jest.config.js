@@ -13,24 +13,20 @@ const customJestConfig = {
 	collectCoverageFrom: [
 		"**/*.{ts,tsx}",
 		"!**/node_modules/**",
-		"!**/vendor/**",
+		"!**/mocks/**/*",
 	],
-	// coverageThreshold: {
-	// 	global: {
-	// 		branches: 80,
-	// 		functions: 80,
-	// 		lines: 80,
-	// 		statements: 80,
-	// 	},
-	// },
-	coveragePathIgnorePatterns: ["<rootDir>/node_modules/, <rootDir>/src/mocks"],
-	testPathIgnorePatterns: [
-		"<rootDir>/node_modules/",
-		"<rootDir>/.next/",
-		"<rootDir>/src/mocks",
-	],
+	coverageThreshold: {
+		global: {
+			branches: 80,
+			functions: 80,
+			lines: 80,
+			statements: 80,
+		},
+	},
+	coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
+	testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
 	// if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
-	moduleDirectories: ["node_modules", "<rootDir>/src"],
+	// moduleDirectories: ["node_modules", "<rootDir>/"],
 	testEnvironment: "jest-environment-jsdom",
 	transform: {
 		// Use babel-jest to transpile tests with the next/babel preset
