@@ -19,16 +19,20 @@ export const db = factory({
 });
 
 // seed data
-range(2).forEach(() => {
-	const tasks = range(4).map(() => {
-		return db.tasks.create({
-			title: faker.lorem.words(3),
+export const seed = () => {
+	range(2).forEach(() => {
+		const tasks = range(4).map(() => {
+			return db.tasks.create({
+				title: faker.lorem.words(3),
+			});
+		});
+
+		db.users.create({
+			firstName: faker.name.firstName(),
+			lastName: faker.name.lastName(),
+			tasks,
 		});
 	});
+};
 
-	db.users.create({
-		firstName: faker.name.firstName(),
-		lastName: faker.name.lastName(),
-		tasks,
-	});
-});
+seed();
