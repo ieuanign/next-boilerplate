@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 
 import Tasks, { getServerSideProps } from "./index.page";
@@ -8,7 +8,6 @@ import StatusCodes from "@core/http/status-codes";
 import { apiBase } from "@core/config";
 
 import { setup, getContext } from "@core/test-utils";
-import { db } from "@mocks/db";
 
 const setupTasks = setup(Tasks, {
 	pathname: "/en/tasks",
@@ -86,31 +85,21 @@ describe("Tasks", () => {
 		expect(screen.getByText("To Do List")).toBeInTheDocument();
 	});
 
-	it("renders with fallback data", () => {
+	it("renders with fallback data", async () => {
 		setupTasks({
 			pageProps: {
 				fallback,
 			},
 		});
 
-		expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
-		expect(screen.getAllByText("delete")).toHaveLength(8);
+		await waitFor(() => {
+			expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
+			expect(screen.getAllByText("delete")).toHaveLength(8);
+		});
 	});
 
 	describe("delete", () => {
-		/**
-		 * To Do: test cases is not isolated
-		 * the db is reseted but the data inside the component
-		 * is still 7 if delete > success run first
-		 * https://github.com/facebook/jest/issues/5623
-		 * https://stackoverflow.com/questions/43275143/unit-tests-isolation-with-jestjs
-		 */
-		it("failed", async () => {
-			server.use(
-				rest.delete(apiBase("/tasks/*"), async (_, res, ctx) =>
-					res(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR))
-				)
-			);
+		it("succeed", async () => {
 			const { userEvent } = setupTasks();
 
 			await waitFor(() => {
@@ -121,26 +110,33 @@ describe("Tasks", () => {
 			await userEvent.click(screen.getAllByText("delete")[0]);
 
 			await waitFor(() => {
-				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
-				expect(screen.getAllByText("delete")).toHaveLength(8);
-			});
-		});
-
-		it("succeed", async () => {
-			const { userEvent } = setupTasks();
-
-			await waitFor(() => {
-				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
-				expect(screen.getAllByText("delete")).toHaveLength(8);
-			});
-
-			userEvent.click(screen.getAllByText("delete")[0]);
-
-			await waitFor(() => {
 				expect(
 					screen.queryByText("quidem expedita labore")
 				).not.toBeInTheDocument();
 				expect(screen.getAllByText("delete")).toHaveLength(7);
+			});
+		});
+
+		it("failed", async () => {
+			server.use(
+				rest.delete(apiBase("/tasks/:id"), async (_, res, ctx) =>
+					res(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR))
+				)
+			);
+
+			const { userEvent } = setupTasks();
+
+			await waitFor(() => {
+				expect(screen.getAllByText("delete")).toHaveLength(8);
+				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
+			});
+
+			await userEvent.click(screen.getAllByText("delete")[0]);
+
+			await waitFor(() => {
+				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
+				expect(screen.getAllByText("delete")).toHaveLength(8);
+				expect(console.error).toHaveBeenCalled();
 			});
 		});
 	});

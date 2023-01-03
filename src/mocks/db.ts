@@ -1,33 +1,7 @@
-import {
-	manyOf,
-	factory,
-	nullable,
-	primaryKey,
-	drop as mswDrop,
-} from "@mswjs/data";
+import { manyOf, factory, nullable, primaryKey } from "@mswjs/data";
 import { faker } from "@faker-js/faker";
 
-faker.seed(123);
-
 const range = (length: number) => Array.from({ length }, (x, i) => i);
-
-export const db = factory({
-	users: {
-		id: primaryKey(faker.datatype.uuid),
-		firstName: String,
-		lastName: String,
-		tasks: nullable(manyOf("tasks", { unique: true })),
-	},
-	tasks: {
-		id: primaryKey(faker.datatype.uuid),
-		title: String,
-	},
-});
-
-// drop db
-export const drop = (db: any) => {
-	mswDrop(db);
-};
 
 // seed data
 export const seed = (db: any) => {
@@ -46,6 +20,21 @@ export const seed = (db: any) => {
 			tasks,
 		});
 	});
+
+	return db;
 };
 
-seed(db);
+export const db = seed(
+	factory({
+		users: {
+			id: primaryKey(faker.datatype.uuid),
+			firstName: String,
+			lastName: String,
+			tasks: nullable(manyOf("tasks", { unique: true })),
+		},
+		tasks: {
+			id: primaryKey(faker.datatype.uuid),
+			title: String,
+		},
+	})
+);

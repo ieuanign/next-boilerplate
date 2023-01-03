@@ -3,14 +3,22 @@
 
 // Used for __tests__/testing-library.js
 // Learn more: https://github.com/testing-library/jest-dom
-import "whatwg-fetch";
 import "@testing-library/jest-dom/extend-expect";
 import { configure } from "@testing-library/react";
 
+import { drop } from "@mswjs/data";
+
 import { server } from "./src/mocks/server";
-import { db, seed, drop } from "./src/mocks/db";
+import { db, seed } from "./src/mocks/db";
 
 configure({ asyncUtilTimeout: 5000 });
+
+global.console = {
+	log: jest.fn(),
+	error: jest.fn(),
+	info: jest.fn(),
+	warn: jest.fn(),
+};
 
 beforeAll(() => {
 	server.listen();

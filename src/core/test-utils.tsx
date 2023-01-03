@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import { SWRConfig } from "swr";
 import { Router } from "next/router";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -33,13 +34,15 @@ export const setup = (Component: Function, defaultRouter?: Partial<Router>) => {
 		useRouter.mockReturnValue(mockRouter);
 
 		const Comp = render(
-			<App
-				pageProps={pageProps}
-				hostname={hostname}
-				router={mockRouter}
-				{...rest}
-				Component={Component}
-			/>
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<App
+					pageProps={pageProps}
+					hostname={hostname}
+					router={mockRouter}
+					{...rest}
+					Component={Component}
+				/>
+			</SWRConfig>
 		);
 
 		return {
