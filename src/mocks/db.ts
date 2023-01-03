@@ -1,4 +1,10 @@
-import { manyOf, factory, nullable, primaryKey } from "@mswjs/data";
+import {
+	manyOf,
+	factory,
+	nullable,
+	primaryKey,
+	drop as mswDrop,
+} from "@mswjs/data";
 import { faker } from "@faker-js/faker";
 
 faker.seed(123);
@@ -18,8 +24,15 @@ export const db = factory({
 	},
 });
 
+// drop db
+export const drop = (db: any) => {
+	mswDrop(db);
+};
+
 // seed data
-export const seed = () => {
+export const seed = (db: any) => {
+	faker.seed(123);
+
 	range(2).forEach(() => {
 		const tasks = range(4).map(() => {
 			return db.tasks.create({
@@ -35,4 +48,4 @@ export const seed = () => {
 	});
 };
 
-seed();
+seed(db);

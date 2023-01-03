@@ -1,3 +1,3 @@
 export interface PageProps {
-	fallback: Record<string, string>;
+	fallback?: Record<string, string>;
 }

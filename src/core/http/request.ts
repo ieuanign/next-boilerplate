@@ -3,7 +3,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getCookie } from "cookies-next";
 
 import { DEFAULT_TIMEOUT_MS, TOKEN_KEY } from "@core/const";
-import StatusCodes from "./status-codes";
 import { Methods, SWRKeyType } from "./types";
 import { unstable_serialize } from "swr";
 
@@ -61,12 +60,12 @@ export const baseRequest = (url: string, init: AxiosRequestConfig) => {
 			},
 		})
 		.then(async (res: AxiosResponse) => res.data)
-		.catch((res) => {
-			if (res.status === StatusCodes.UNPROCESSABLE_ENTITY) {
-				throw new HttpError(res.status, res.statusText, res);
-			}
-
-			throw new HttpError(res.status, res.statusText);
+		.catch((error) => {
+			throw new HttpError(
+				error.response.status,
+				error.response.statusText,
+				error.response.data
+			);
 		});
 };
 

@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getServerSideProps with fallback data 1`] = `
+{
+  "props": {
+    "_nextI18Next": {
+      "initialI18nStore": {
+        "en": {
+          "common": {
+            "description": "NextJS common setup",
+            "no": "No",
+            "title": "NextJS Boilerplate | EN",
+            "yes": "Yes",
+          },
+        },
+      },
+      "initialLocale": "en",
+      "ns": [
+        "common",
+      ],
+      "userConfig": {
+        "default": {
+          "i18n": {
+            "defaultLocale": "default",
+            "localeDetection": false,
+            "locales": [
+              "default",
+              "en",
+              "id",
+            ],
+          },
+        },
+        "i18n": {
+          "defaultLocale": "default",
+          "localeDetection": false,
+          "locales": [
+            "default",
+            "en",
+            "id",
+          ],
+        },
+      },
+    },
+    "fallback": {
+      "@"http://localhost:3080/tasks",": {
+        "data": [
+          {
+            "id": "63b8bb76-cf6a-4972-a65a-b5730b69ba27",
+            "title": "quidem expedita labore",
+          },
+          {
+            "id": "b86a4d7b-b95b-465a-9533-4fac1c606272",
+            "title": "dolores veritatis voluptatum",
+          },
+          {
+            "id": "e6cebf88-7991-4457-aade-4177f3869c17",
+            "title": "vel inventore quaerat",
+          },
+          {
+            "id": "48650456-bade-4487-a49d-94a8d215ce32",
+            "title": "assumenda quod unde",
+          },
+          {
+            "id": "56034668-b8f0-45ac-890b-e246c355d80a",
+            "title": "fugiat quibusdam expedita",
+          },
+          {
+            "id": "2e57a3d4-8dd8-46a5-85d2-6d0578899840",
+            "title": "quos beatae adipisci",
+          },
+          {
+            "id": "e5384784-e4f9-44b9-8c56-abd229fd5fd1",
+            "title": "repudiandae doloribus animi",
+          },
+          {
+            "id": "3e7e8310-4de3-4907-9c7b-806b4d62ccc4",
+            "title": "quae vel alias",
+          },
+        ],
+        "error": null,
+        "status": "ok",
+      },
+    },
+  },
+}
+`;
+
+exports[`getServerSideProps without fallback data 1`] = `
+{
+  "props": {
+    "_nextI18Next": {
+      "initialI18nStore": {
+        "en": {
+          "common": {
+            "description": "NextJS common setup",
+            "no": "No",
+            "title": "NextJS Boilerplate | EN",
+            "yes": "Yes",
+          },
+        },
+      },
+      "initialLocale": "en",
+      "ns": [
+        "common",
+      ],
+      "userConfig": {
+        "default": {
+          "i18n": {
+            "defaultLocale": "default",
+            "localeDetection": false,
+            "locales": [
+              "default",
+              "en",
+              "id",
+            ],
+          },
+        },
+        "i18n": {
+          "defaultLocale": "default",
+          "localeDetection": false,
+          "locales": [
+            "default",
+            "en",
+            "id",
+          ],
+        },
+      },
+    },
+    "fallback": {},
+  },
+}
+`;

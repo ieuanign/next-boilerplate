@@ -9,6 +9,7 @@ import useErrorHandler from "./useErrorHandler";
 
 export interface SWROptions extends SWRConfiguration {
 	withErrorHandler: boolean;
+	withFetcher: boolean;
 }
 
 /**
@@ -21,12 +22,18 @@ export interface SWROptions extends SWRConfiguration {
  * As default, it is set to be fetched in server-side and client-side.
  * https://swr.vercel.app/docs/with-nextjs#pre-rendering-with-default-data
  */
-const useMutableData = (key: SWRKeyType, options?: SWROptions) => {
+const useMutableData = (key: SWRKeyType, options?: Partial<SWROptions>) => {
 	const [url] = key;
-	const { withErrorHandler = true, ...rest } = options || {};
+	const {
+		withErrorHandler = true,
+		withFetcher = true,
+		...rest
+	} = options || {};
 	const swr = useSWR(
 		!!url ? key : null,
-		([url, init]: [string, AxiosRequestConfig?]) => get(url, init),
+		withFetcher
+			? ([url, init]: [string, AxiosRequestConfig?]) => get(url, init)
+			: null,
 		rest
 	);
 
