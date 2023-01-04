@@ -1,7 +1,7 @@
 import { env } from "@core/config";
 
 const initMocks = async () => {
-	if (["development", "test"].includes(env.environment)) {
+	if (env.environment === "development") {
 		if (typeof window === "undefined") {
 			const { server } = await import("./server");
 			server.listen();
