@@ -14,7 +14,7 @@ import { db, seed } from "./src/mocks/db";
 configure({ asyncUtilTimeout: 5000 });
 
 global.console = {
-	log: jest.fn(),
+	...global.console,
 	error: jest.fn(),
 	info: jest.fn(),
 	warn: jest.fn(),

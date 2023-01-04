@@ -46,10 +46,14 @@ const Tasks = () => {
 			data: {
 				title: taskName,
 			},
-		}).then(() => {
-			setTaskName("");
-			mutate();
-		});
+		})
+			.then(() => {
+				setTaskName("");
+				mutate();
+			})
+			.catch((e) => {
+				console.error(e);
+			});
 	};
 
 	const handleDeleteTask = (e: MouseEvent<HTMLButtonElement>, id: number) => {

@@ -14,6 +14,8 @@ const customJestConfig = {
 		"**/*.{ts,tsx}",
 		"!**/node_modules/**",
 		"!**/mocks/**/*",
+		// should be replace with sentry ErrorBoundary component
+		"!**/ErrorBoundary.tsx",
 	],
 	/* coverageThreshold: {
 		global: {

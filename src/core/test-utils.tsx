@@ -12,13 +12,14 @@ jest.mock("react-i18next", () => ({
 	useTranslation: () => ({ t: (key: any) => key }),
 }));
 
-export const setup = (Component: Function, defaultRouter?: Partial<Router>) => {
+export const init = (Component: Function, defaultRouter?: Partial<Router>) => {
 	let mockRouter = {
 		pathname: "/",
 		query: {},
+		locales: ["en", "id"],
 		...defaultRouter,
 		push: jest.fn(),
-		prefetch: jest.fn(() => Promise.resolve(true)),
+		// prefetch: jest.fn(() => Promise.resolve(true)),
 	};
 
 	const withProps = (props?: any) => {

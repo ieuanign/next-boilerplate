@@ -7,9 +7,9 @@ import { server } from "@mocks/server";
 import StatusCodes from "@core/http/status-codes";
 import { apiBase } from "@core/config";
 
-import { setup, getContext } from "@core/test-utils";
+import { init, getContext } from "@core/test-utils";
 
-const setupTasks = setup(Tasks, {
+const setup = init(Tasks, {
 	pathname: "/en/tasks",
 });
 
@@ -80,13 +80,13 @@ const fallback = {
 
 describe("Tasks", () => {
 	it("renders title", () => {
-		setupTasks();
+		setup();
 
 		expect(screen.getByText("To Do List")).toBeInTheDocument();
 	});
 
 	it("renders with fallback data", async () => {
-		setupTasks({
+		setup({
 			pageProps: {
 				fallback,
 			},
@@ -100,7 +100,7 @@ describe("Tasks", () => {
 
 	describe("delete", () => {
 		it("succeed", async () => {
-			const { userEvent } = setupTasks();
+			const { userEvent } = setup();
 
 			await waitFor(() => {
 				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe("Tasks", () => {
 				)
 			);
 
-			const { userEvent } = setupTasks();
+			const { userEvent } = setup();
 
 			await waitFor(() => {
 				expect(screen.getAllByText("delete")).toHaveLength(8);
@@ -137,6 +137,62 @@ describe("Tasks", () => {
 				expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
 				expect(screen.getAllByText("delete")).toHaveLength(8);
 				expect(console.error).toHaveBeenCalled();
+			});
+		});
+	});
+
+	describe("add", () => {
+		it("succeed", async () => {
+			const { userEvent } = setup();
+
+			userEvent.type(
+				screen.getByPlaceholderText("Enter task name"),
+				"Swimming"
+			);
+
+			await waitFor(() => {
+				expect(screen.getByPlaceholderText("Enter task name")).toHaveValue(
+					"Swimming"
+				);
+			});
+
+			await userEvent.click(screen.getByText("Add Task"));
+
+			await waitFor(() => {
+				expect(screen.getByText("Swimming")).toBeInTheDocument();
+				expect(screen.getAllByText("delete")).toHaveLength(9);
+				expect(screen.getByPlaceholderText("Enter task name")).toHaveValue("");
+			});
+		});
+
+		it("failed", async () => {
+			server.use(
+				rest.post(apiBase("/tasks"), async (_, res, ctx) =>
+					res(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR))
+				)
+			);
+
+			const { userEvent } = setup();
+
+			userEvent.type(
+				screen.getByPlaceholderText("Enter task name"),
+				"Swimming"
+			);
+
+			await waitFor(() => {
+				expect(screen.getByPlaceholderText("Enter task name")).toHaveValue(
+					"Swimming"
+				);
+			});
+
+			await userEvent.click(screen.getByText("Add Task"));
+
+			await waitFor(() => {
+				expect(screen.queryByText("Swimming")).not.toBeInTheDocument();
+				expect(screen.getAllByText("delete")).toHaveLength(8);
+				expect(screen.getByPlaceholderText("Enter task name")).toHaveValue(
+					"Swimming"
+				);
 			});
 		});
 	});

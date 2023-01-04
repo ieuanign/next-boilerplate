@@ -18,11 +18,6 @@ export class HttpError extends Error {
 	}
 }
 
-export const jsonHeaders = {
-	Accept: "application/json",
-	"Content-Type": "application/json",
-};
-
 export const authHeaders = () => {
 	const token = getCookie(TOKEN_KEY);
 
@@ -47,13 +42,14 @@ instance.defaults.timeout = DEFAULT_TIMEOUT_MS;
  * X-Request-ID header is a random ID that will be passed onto the server
  * that will able to track error by including the ID in the bug report.
  */
-export const baseRequest = (url: string, init: AxiosRequestConfig) => {
+const baseRequest = (url: string, init: AxiosRequestConfig) => {
 	return instance
 		.request({
 			url,
 			...init,
 			headers: {
-				...jsonHeaders,
+				Accept: "application/json",
+				"Content-Type": "application/json",
 				...init.headers,
 				// why we need it: https://stackoverflow.com/questions/25433258/what-is-the-x-request-id-http-header
 				// "X-Request-Id": nanoid(),
