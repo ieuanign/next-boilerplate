@@ -78,6 +78,24 @@ const fallback = {
 	},
 };
 
+const globalConsole = {
+	...global.console,
+};
+
+beforeAll(() => {
+	global.console = {
+		...global.console,
+		// disable console.error to print up error in unit test
+		error: jest.fn(),
+	};
+});
+
+afterAll(() => {
+	global.console = {
+		...globalConsole,
+	};
+});
+
 describe("Tasks", () => {
 	it("renders title", () => {
 		setup();

@@ -16,6 +16,9 @@ const customJestConfig = {
 		"!**/mocks/**/*",
 		// should be replace with sentry ErrorBoundary component
 		"!**/ErrorBoundary.tsx",
+		// next.js files
+		"!**/_document.page.tsx",
+		"!**/middleware.page.ts",
 	],
 	/* coverageThreshold: {
 		global: {

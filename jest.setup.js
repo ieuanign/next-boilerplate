@@ -13,13 +13,6 @@ import { db, seed } from "./src/mocks/db";
 
 configure({ asyncUtilTimeout: 5000 });
 
-global.console = {
-	...global.console,
-	error: jest.fn(),
-	info: jest.fn(),
-	warn: jest.fn(),
-};
-
 beforeAll(() => {
 	server.listen();
 });
