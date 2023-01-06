@@ -47,7 +47,7 @@ const Head = ({ hostname }: HeadProps) => {
 			<link
 				rel="apple-touch-icon"
 				sizes="57x57"
-				href={staticPath("favicons/apple-icon-57x57.png")}
+				href={staticPath("/favicons/apple-icon-57x57.png")}
 			/>
 			<link
 				rel="apple-touch-icon"

@@ -3,6 +3,22 @@ import { screen, waitFor } from "@testing-library/react";
 import { EmptyLayout } from "@components/Layout";
 
 import { init } from "@core/test-utils";
+import App from "@pages/_app.page";
+
+jest.mock("@core/config", () => {
+	const origConfig = jest.requireActual("@core/config");
+	return {
+		...origConfig,
+		env: {
+			...origConfig.env,
+			mockAPI: true,
+		},
+	};
+});
+
+afterAll(() => {
+	jest.restoreAllMocks();
+});
 
 const DefaultLayoutComponent = ({ text }: { text: string }) => {
 	return <div>fake component: {text}</div>;
@@ -33,6 +49,7 @@ describe("_app", () => {
 				expect(screen.getByText(/Default Layout/i)).toBeInTheDocument();
 			});
 		});
+
 		it("should render with empty layout", async () => {
 			emptyLayout({
 				pageProps: {
@@ -46,6 +63,22 @@ describe("_app", () => {
 				expect(screen.queryByText("footer")).not.toBeInTheDocument();
 				expect(screen.getByText(/Empty Layout/i)).toBeInTheDocument();
 			});
+		});
+	});
+
+	describe("getInitialProps", () => {
+		it("should return hostname", async () => {
+			const { hostname } = await App.getInitialProps({
+				ctx: {
+					req: {
+						headers: {
+							host: "http://localhost:3000",
+						},
+					},
+				},
+			});
+
+			expect(hostname).toBe("http://localhost:3000");
 		});
 	});
 });

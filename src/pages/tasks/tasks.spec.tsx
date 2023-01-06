@@ -35,6 +35,19 @@ describe("getServerSideProps", () => {
 		// empty fallback
 		expect(ssrProps).toMatchSnapshot();
 	});
+
+	// for default ssrLangProps utility
+	it("without locale", async () => {
+		const customContext = {
+			...defaultContext,
+			locale: undefined,
+		};
+
+		const ssrProps = await getServerSideProps(customContext);
+
+		// show fallback data
+		expect(ssrProps).toMatchSnapshot();
+	});
 });
 
 const fallback = {
@@ -78,25 +91,25 @@ const fallback = {
 	},
 };
 
-const globalConsole = {
-	...global.console,
-};
-
-beforeAll(() => {
-	global.console = {
-		...global.console,
-		// disable console.error to print up error in unit test
-		error: jest.fn(),
-	};
-});
-
-afterAll(() => {
-	global.console = {
-		...globalConsole,
-	};
-});
-
 describe("Tasks", () => {
+	const globalConsole = {
+		...global.console,
+	};
+
+	beforeAll(() => {
+		global.console = {
+			...global.console,
+			// disable console.error to print up error in unit test
+			error: jest.fn(),
+		};
+	});
+
+	afterAll(() => {
+		global.console = {
+			...globalConsole,
+		};
+	});
+
 	it("renders title", () => {
 		setup();
 
@@ -113,6 +126,22 @@ describe("Tasks", () => {
 		await waitFor(() => {
 			expect(screen.getByText("quidem expedita labore")).toBeInTheDocument();
 			expect(screen.getAllByText("delete")).toHaveLength(8);
+		});
+	});
+
+	it("renders error boundary", async () => {
+		server.use(
+			rest.get(apiBase("/tasks"), async (_, res, ctx) =>
+				res(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR))
+			)
+		);
+
+		setup();
+
+		await waitFor(() => {
+			expect(
+				screen.getByText(/Error Caught by ErrorBoundary/)
+			).toBeInTheDocument();
 		});
 	});
 

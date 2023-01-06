@@ -1,6 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
-import axios from "axios";
 import {
 	authHeaders,
 	get,
