@@ -46,22 +46,30 @@ const Tasks = () => {
 			data: {
 				title: taskName,
 			},
-		}).then(() => {
-			setTaskName("");
-			mutate();
-		});
+		})
+			.then(() => {
+				setTaskName("");
+				mutate();
+			})
+			.catch((e) => {
+				console.error(e);
+			});
 	};
 
 	const handleDeleteTask = (e: MouseEvent<HTMLButtonElement>, id: number) => {
 		e.preventDefault();
 
-		del(apiBase(`/tasks/${id}`)).then(() => {
-			mutate();
-		});
+		del(apiBase(`/tasks/${id}`))
+			.then(() => {
+				mutate();
+			})
+			.catch((e) => {
+				console.error(e);
+			});
 	};
 
 	// there should be no `undefined` state when we have a fallback from SSR
-	// console.log("data", data); // intentional logger
+	// console.log("data", taskList?.length); // intentional logger
 
 	return (
 		<section className={styles.task}>

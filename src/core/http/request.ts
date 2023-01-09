@@ -3,7 +3,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getCookie } from "cookies-next";
 
 import { DEFAULT_TIMEOUT_MS, TOKEN_KEY } from "@core/const";
-import StatusCodes from "./status-codes";
 import { Methods, SWRKeyType } from "./types";
 import { unstable_serialize } from "swr";
 
@@ -18,11 +17,6 @@ export class HttpError extends Error {
 		this.details = details;
 	}
 }
-
-export const jsonHeaders = {
-	Accept: "application/json",
-	"Content-Type": "application/json",
-};
 
 export const authHeaders = () => {
 	const token = getCookie(TOKEN_KEY);
@@ -48,25 +42,26 @@ instance.defaults.timeout = DEFAULT_TIMEOUT_MS;
  * X-Request-ID header is a random ID that will be passed onto the server
  * that will able to track error by including the ID in the bug report.
  */
-export const baseRequest = (url: string, init: AxiosRequestConfig) => {
+const baseRequest = (url: string, init: AxiosRequestConfig) => {
 	return instance
 		.request({
 			url,
 			...init,
 			headers: {
-				...jsonHeaders,
+				Accept: "application/json",
+				"Content-Type": "application/json",
 				...init.headers,
 				// why we need it: https://stackoverflow.com/questions/25433258/what-is-the-x-request-id-http-header
 				// "X-Request-Id": nanoid(),
 			},
 		})
 		.then(async (res: AxiosResponse) => res.data)
-		.catch((res) => {
-			if (res.status === StatusCodes.UNPROCESSABLE_ENTITY) {
-				throw new HttpError(res.status, res.statusText, res);
-			}
-
-			throw new HttpError(res.status, res.statusText);
+		.catch((error) => {
+			throw new HttpError(
+				error.response.status,
+				error.response.statusText,
+				error.response.data
+			);
 		});
 };
 

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request delete should return json response on success 1`] = `
+{
+  "status": 200,
+}
+`;
+
+exports[`Request get should return json response on success 1`] = `
+{
+  "status": 200,
+}
+`;
+
+exports[`Request post should return json response on success 1`] = `
+{
+  "status": 200,
+}
+`;
+
+exports[`Request put should return json response on success 1`] = `
+{
+  "status": 200,
+}
+`;
+
+exports[`getServerSideFallbacks should only return the responses of successful requests 1`] = `
+{
+  "@"http://localhost:3080/api/success",": {
+    "status": 200,
+  },
+  "@"http://localhost:3080/api/success-2",": {
+    "status": 200,
+  },
+}
+`;

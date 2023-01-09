@@ -31,12 +31,10 @@ function App({ Component, pageProps, hostname }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout || StandardLayout;
 
 	return (
-		<>
-			<ErrorBoundary fallback={<>Error Caught by ErrorBoundary</>}>
-				<Head hostname={hostname} />
-				{getLayout(<Component {...pageProps} />)}
-			</ErrorBoundary>
-		</>
+		<ErrorBoundary fallback={<>Error Caught by ErrorBoundary</>}>
+			<Head hostname={hostname} />
+			{getLayout(<Component {...pageProps} />)}
+		</ErrorBoundary>
 	);
 }
 
