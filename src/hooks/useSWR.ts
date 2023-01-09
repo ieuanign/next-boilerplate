@@ -23,7 +23,7 @@ export interface SWROptions extends SWRConfiguration {
  * https://swr.vercel.app/docs/with-nextjs#pre-rendering-with-default-data
  */
 const useMutableData = (key: SWRKeyType, options?: Partial<SWROptions>) => {
-	const [url] = key;
+	const [url] = key || [];
 	const {
 		withErrorHandler = true,
 		withFetcher = true,

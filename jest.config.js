@@ -19,15 +19,16 @@ const customJestConfig = {
 		// next.js files
 		"!**/_document.page.tsx",
 		"!**/middleware.page.ts",
+		"!**/useSWR.ts",
 	],
-	/* coverageThreshold: {
+	coverageThreshold: {
 		global: {
 			branches: 80,
 			functions: 80,
 			lines: 80,
 			statements: 80,
 		},
-	}, */
+	},
 	coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
 	testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
 	// if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
