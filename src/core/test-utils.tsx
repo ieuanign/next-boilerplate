@@ -72,3 +72,20 @@ export const getContext = (
 			},
 		},
 	} as GetServerSidePropsContext);
+
+export const ssrLangTest = (
+	context: GetServerSidePropsContext,
+	getServerSideProps: Function
+) => {
+	it("without locale", async () => {
+		const customContext = {
+			...context,
+			locale: undefined,
+		};
+
+		const ssrProps = await getServerSideProps(customContext);
+
+		// show fallback data
+		expect(ssrProps).toMatchSnapshot();
+	});
+};

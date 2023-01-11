@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getServerSideProps without locale 1`] = `
+{
+  "props": {
+    "_nextI18Next": {
+      "initialI18nStore": {
+        "en": {
+          "common": {
+            "description": "NextJS common setup",
+            "no": "No",
+            "title": "NextJS Boilerplate | EN",
+            "yes": "Yes",
+          },
+        },
+      },
+      "initialLocale": "en",
+      "ns": [
+        "common",
+      ],
+      "userConfig": {
+        "default": {
+          "i18n": {
+            "defaultLocale": "default",
+            "localeDetection": false,
+            "locales": [
+              "default",
+              "en",
+              "id",
+            ],
+          },
+        },
+        "i18n": {
+          "defaultLocale": "default",
+          "localeDetection": false,
+          "locales": [
+            "default",
+            "en",
+            "id",
+          ],
+        },
+      },
+    },
+  },
+}
+`;
