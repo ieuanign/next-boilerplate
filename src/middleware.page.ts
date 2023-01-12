@@ -4,6 +4,7 @@ import { DEFAULT_LANG } from "@core/const";
 const PUBLIC_FILE = /\.(.*)$/;
 
 export async function middleware(req: NextRequest) {
+	/* Localization -- Start -- */
 	if (
 		req.nextUrl.pathname.startsWith("/_next") ||
 		req.nextUrl.pathname.includes("/api/") ||
@@ -19,4 +20,5 @@ export async function middleware(req: NextRequest) {
 			new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
 		);
 	}
+	/* Localization -- End -- */
 }
