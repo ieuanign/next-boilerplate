@@ -123,7 +123,7 @@ As logo is one of the important assets in the project, this project already setu
 2. Go to the https://www.favicon-generator.org/ to generate the logo.
 3. Replace the [favicons](https://github.com/ieuanign/next-boilerplate/tree/main/public/static/favicons) folder inside the `public/static` with the generated favicons.
 
-> **Don't** modify the `manifest.json` file unless you know what you are doing.
+> **Do not** modify the `manifest.json` file unless you know what you are doing.
 
 ---
 
@@ -161,7 +161,7 @@ npm uninstall next-i18next i18next
 ```
 
 - Remove every usage of the uninstalled packages including `appWithTranslation`, `useTranslation`, `ssrLangProps`, etc.
-- Delete the `public/locales`folder
+- Delete the `public/locales` folder
 - Delete the `next-i18next.config.js` and remove `i18n` in the `next.config.js`
 - Remove the code related to the localization in the `src/middleware.page.ts`.
 
@@ -169,14 +169,66 @@ npm uninstall next-i18next i18next
 
 ### Styling
 
-visit ./src/styles
+For the styling, this project is using scss and module scss. The scss is for the global styling that put in the `src/styles`. The module scss is for a specific component whether it's in the `src/pages` or `src/components`.
+
+Please visit the [official documentation](https://github.com/css-modules/css-modules) on how to utilize the module scss.
+
+#### Global Styling
+
+For global styling there are some scss files that can be utilize by the developer.
+
+- mixins: for global function
+- normalize & reset: to normalize styling for other browsers
+- variables: to delcare sass variable
 
 #### Fonts
+
+The developer could utilize the fonts styling to use other font face for the project. These are the steps that are required for the developer to change the font-face:
+
+1. Replace the fonts inside `public/static/fonts` with the selected fonts
+2. Change the file names inside the `src/styles/_variables.scss` into the selected font filenames.
+
+As default, the font-family name is using `Local` and the developer could change it into anything by changing the `$font-family` variable inside the `src/styles/_variables.scss`
 
 ---
 
 ### Mock
 
+This project has been setup with a mock server using [msw](https://mswjs.io/).
+
+To utilize this package, the developer needs to:
+
+1. Create a table and it's field inside the `mocks/db.ts` inside the `factory` function.
+2. Seed the data if necessary to populate the mock database. The developer could use [faker](https://fakerjs.dev/) to generate the seed data.
+3. Create mock endpoints inside the `mocks/endpoints`.
+4. import the mocked endpoints module to the `mocks/handlers.ts`.
+
+The mock db and API could will be used if the `MOCK_API` value inside the `.env` file is `true`.
+This package is useful for mocking APIs when the real API is not ready and for unit testing.
+
+> The developer can check `mocks/init.ts` if there is a need to change on the mock initialization.
+
+Absolute imports has been setup for components folder. To utilize it, the developer can import it by:
+
+```
+@mocks/<component_name>
+```
+
 ---
 
 ### Unit Testing
+
+For unit testing, it is recommended to use Behavior-Driven Development ([BDD](https://www.techtarget.com/searchsoftwarequality/definition/Behavior-driven-development-BDD)) that test the acceptance criteria or user expectation when interacting with the code. The developer could also combine this with the Test-Driven Development ([TDD](https://testdriven.io/test-driven-development/)) by creating the unit test first before creating the feature.
+
+For make the unit testing easier, this project already setup the unit testing and use several modules:
+
+- [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/): Replacement for Enzyme
+- [@testing-library/user-event](https://testing-library.com/docs/user-event/intro): replacing `fireEvent` and `act`
+- [msw](https://mswjs.io/): Mocking the API rather than the fetcher.
+
+### Husky
+
+Husky is used to run the linter, prettier, and the unit test when the developer run `git commit`. To change the configuration, the developer could visit:
+
+- `husky/pre-commit`
+- `.linstagedrc.js`
